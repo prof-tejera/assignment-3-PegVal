@@ -8,10 +8,8 @@ import XyInput from "./XyInput";
 const Editor = () => {
   const navigate = useNavigate();
 
-  // Have to keep 'savePost'. if not, doesn't find the 'type'. Why?
-
+  // Destructuring
   const { selectedPost } = useContext(BlogContext);
-  //const { selectedPost, savePost } = useContext(BlogContext);
 
   const [type, setType] = useState(selectedPost?.type ?? "");
 
@@ -33,7 +31,7 @@ const Editor = () => {
             {type === "" && (
               <>
                 <div className="titleForm">
-                  Add a Workout xxx{selectedPost?.type}
+                  Add a Workout {selectedPost?.type}
                 </div>
                 <button
                   className="button-nav"

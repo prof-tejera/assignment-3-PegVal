@@ -16,12 +16,18 @@ const BlogProvider = ({ children }) => {
     <BlogContext.Provider
       value={{
         posts,
+        setPosts, // -------------------------------------- ajouter pour drag&drop
         editorOpen: !!selectedPost,
         selectedPost,
         closeEditor,
         postCount: posts.length,
 
         deletePost: ({ id }) => setPosts(posts.filter((x) => x.id !== id)),
+        /* deletePost: ({ id }) => {
+          const p = posts.filter((p) => p.id !== id);
+          setPosts(p);
+        }, */
+
         openEditor: () => setSelectedPost({}),
 
         openPost: ({ id }) => {
