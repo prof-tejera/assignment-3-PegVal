@@ -1,11 +1,9 @@
 import React from "react";
-import { useEffect } from "react"; // --------------pour local storage
+import { useEffect } from "react"; 
 import { makeId } from "./util";
 import { useState } from "react";
 
 export const BlogContext = React.createContext({});
-
-//const LOCAL_STORAGE_KEY = "blog-post"; // Local storage
 
 const usePersistedState = (localStorageKey, initialValue) => {
   const [value, setValue] = useState(() => {
@@ -23,9 +21,7 @@ const usePersistedState = (localStorageKey, initialValue) => {
 
 const BlogProvider = ({ children }) => {
   const [selectedPost, setSelectedPost] = useState(null);
-
-  //const [posts, setPosts] = useState([]); // remettre si ça ne va pas
-  const [posts, setPosts] = usePersistedState("blog-posts", []); // -------------------------------- local storage
+  const [posts, setPosts] = usePersistedState("blog-posts", []); 
 
   const closeEditor = () => {
     setSelectedPost(null);
@@ -35,17 +31,13 @@ const BlogProvider = ({ children }) => {
     <BlogContext.Provider
       value={{
         posts,
-        setPosts, // -------------------------------------- ajouter pour drag&drop
+        setPosts, 
         editorOpen: !!selectedPost,
         selectedPost,
         closeEditor,
         postCount: posts.length,
 
         deletePost: ({ id }) => setPosts(posts.filter((x) => x.id !== id)),
-        /* deletePost: ({ id }) => {
-          const p = posts.filter((p) => p.id !== id);
-          setPosts(p);
-        }, */
 
         openEditor: () => setSelectedPost({}),
 
@@ -70,7 +62,6 @@ const BlogProvider = ({ children }) => {
             );
             setPosts(updatedPosts);
           } else {
-            // create a new post
             setPosts([
               ...posts,
               {
@@ -79,7 +70,6 @@ const BlogProvider = ({ children }) => {
               },
             ]);
           }
-
           closeEditor();
         },
       }}>

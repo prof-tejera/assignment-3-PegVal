@@ -22,7 +22,6 @@ const CountdownInput = () => {
   const [duration, setDuration] = useState(selectedPost?.duration ?? "");
   const repeat = 0;
   const pause = 0;
-
   const type = "countdown";
 
   return (

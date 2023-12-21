@@ -1,15 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { BlogContext } from "./BlogProvider";
-//import { Link } from "react-router-dom";
-import { useNavigate } from "react-router"; // ----------------- history
+import { useNavigate } from "react-router"; 
 
-//import { useSearchParams } from "react-router-dom";
-//import { createSearchParams } from "react-router-dom";
-
-//const encodeSearchParams = (params) => createSearchParams(params);
-
-// --------------- à mettre dans HOOKS -------------------
 const usePersistedState = (localStorageKey, initialValue) => {
   const [value, setValue] = useState(() => {
     const storedValue = window.localStorage.getItem(localStorageKey);
@@ -20,44 +13,15 @@ const usePersistedState = (localStorageKey, initialValue) => {
   useEffect(() => {
     window.localStorage.setItem(localStorageKey, JSON.stringify(value));
   }, [localStorageKey, value]);
-
   return [value, setValue];
 };
 
-// -------- persistent state ---
-/* const decodeSearchParams = (searchParams) => {
-  return [...searchParams.entries()].reduce((acc, [key, val]) => {
-    try {
-      return {
-        ...acc,
-        [key]: JSON.parse(val),
-      };
-    } catch {
-      return {
-        ...acc,
-        [key]: val,
-      };
-    }
-  }, {});
-}; */
-
 const Tabata = () => {
-  //const [searchParams, setSearchParams] = useSearchParams(); // persistent -----------------
-  //const searchParams = useSearchParams(); // --- persistent
-
-  const navigate = useNavigate(); // -------------
-
-  const value = React.useContext(BlogContext); // -------- context
-
+  const navigate = useNavigate(); 
+  const value = React.useContext(BlogContext); 
   const totalTimer = value.postCount;
-
-  //const [isActive, setIsActive] = useState(false);
   const [isActive, setIsActive] = usePersistedState("is-active", false);
-
-  //const [isFinish, setIsFinish] = useState(false);
   const [isFinish, setIsFinish] = usePersistedState("is-finish", false);
-
-  //const [type, setType] = useState(value.posts[0].type);
   const [type, setType] = usePersistedState("type", value.posts[0].type);
 
   const extractTimerValues = value.posts.map((what) => {
@@ -70,109 +34,23 @@ const Tabata = () => {
     0
   );
 
-  // ---------- History ----------------
-
-  /*  const history = useNavigate();
-  
-
-  function handleClick() {
-    history.push("/my-page", { data });
-  } */
-
-  /* function handleQueryParamsChange() {
-  const params = {
-    filters: JSON.stringify(value.posts),
-    //anotherField: "Simple String", // ----------------------------- / record ????
-  };
-  //localStorage.clear();
-  setSearchParams(encodeSearchParams(params));
-  //setSaveSettings(true);
-} */
-
-  //const peggy = handleQueryParamsChange;
-
-  // ---------- end History ----------------
-
-  //const [totalAllTimers, setTotalAllTimers] = useState(totalTiming); // durée de l'ensemble du workout
-  const [totalAllTimers, setTotalAllTimers] = usePersistedState(
-    "total-all-timers",
-    totalTiming
-  );
-
-  //const [msgAction, setMsgAction] = useState("ready?"); // message de fin
+  const [totalAllTimers, setTotalAllTimers] = usePersistedState("total-all-timers", totalTiming);
   const [msgAction, setMsgAction] = usePersistedState("msg", "ready?");
-
-  //const [numTimer, setNumTimer] = useState(0); // la ref du timer pour le countdown
   const [numTimer, setNumTimer] = usePersistedState("num-timer", 0);
-
-  //const [actualTimer, setActualTimer] = useState(totalTimer); // la ref du timer à appeler
-  const [actualTimer, setActualTimer] = usePersistedState(
-    "actual-timer",
-    totalTimer
-  );
-
-  //const [totalAllSeconds, setTotalAllSeconds] = useState(extractTimerValues[0]); // durée pour un timer en particulier
-  const [totalAllSeconds, setTotalAllSeconds] = usePersistedState(
-    "total-all-seconds",
-    extractTimerValues[0]
-  );
-
-  //const [initTotalAllSeconds, setInitTotalAllSeconds] = useState(totalAllSeconds);
-  const [initTotalAllSeconds, setInitTotalAllSeconds] = usePersistedState(
-    "init-total-all-seconds",
-    totalAllSeconds
-  );
-
-  //const [title, setTitle] = useState(value.posts[0].title !== "" ? value.posts[0].title : "No title");
-  const [title, setTitle] = usePersistedState(
-    "title",
-    value.posts[0].title !== "" ? value.posts[0].title : "No title"
-  );
-
-  //const [valRepeat, setValRepeat] = useState(value.posts[0].repeat + 1); // valeur initiale
-  const [valRepeat, setValRepeat] = usePersistedState(
-    "val-repeat",
-    value.posts[0].repeat + 1
-  );
-
-  //const [repeat, setRepeat] = useState(valRepeat); // valeur à décrémenter
+  const [actualTimer, setActualTimer] = usePersistedState("actual-timer", totalTimer);
+  const [totalAllSeconds, setTotalAllSeconds] = usePersistedState("total-all-seconds", extractTimerValues[0]);
+  const [initTotalAllSeconds, setInitTotalAllSeconds] = usePersistedState("init-total-all-seconds", totalAllSeconds);
+  const [title, setTitle] = usePersistedState("title", value.posts[0].title !== "" ? value.posts[0].title : "No title");
+  const [valRepeat, setValRepeat] = usePersistedState("val-repeat", value.posts[0].repeat + 1);
   const [repeat, setRepeat] = usePersistedState("repeat", valRepeat);
-
-  //const [valPause, setValPause] = useState(value.posts[0].pause !== "" ? value.posts[0].pause : 0); // valeur initiale
-  const [valPause, setValPause] = usePersistedState(
-    "val-pause",
-    value.posts[0].pause !== "" ? value.posts[0].pause : 0
-  );
-
-  //const [pause, setPause] = useState(valPause); // valeur à décrémenter
+  const [valPause, setValPause] = usePersistedState("val-pause", value.posts[0].pause !== "" ? value.posts[0].pause : 0);
   const [pause, setPause] = usePersistedState("pause", valPause);
-
-  //const [remaining, setRemaining] = useState(totalTiming);
   const [remaining, setRemaining] = usePersistedState("remaining", totalTiming);
-
-  //const [workout, setWorkout] = useState(totalTimer);
   const [workout, setWorkout] = usePersistedState("workout", totalTimer);
-
-  //const valDuration = useState(value.posts[0].duration); // valeur initiale
-  const valDuration = usePersistedState(
-    "val-duration",
-    value.posts[0].duration
-  );
-
-  //const duration = useState(valDuration); // valeur à décrémenter
+  const valDuration = usePersistedState("val-duration", value.posts[0].duration);
   const duration = usePersistedState("duration", valDuration);
-
-  //const valDurationAndPause = useState(value.posts[0].duration + value.posts[0].pause); // valeur intiale */
-  const valDurationAndPause = usePersistedState(
-    "val-duration-and-pause",
-    value.posts[0].duration + value.posts[0].pause
-  );
-
-  //const [durationAndPause, setDurationAndPause] = useState(valDurationAndPause); // valeur à décrementer
-  const [durationAndPause, setDurationAndPause] = usePersistedState(
-    "duration-and-pause",
-    valDurationAndPause
-  );
+  const valDurationAndPause = usePersistedState("val-duration-and-pause", value.posts[0].duration + value.posts[0].pause);
+  const [durationAndPause, setDurationAndPause] = usePersistedState("duration-and-pause", valDurationAndPause);
 
   function toggle() {
     setIsActive(!isActive);
@@ -181,15 +59,10 @@ const Tabata = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (totalAllTimers > 0 && isActive) {
-        // tant que le timer général n'est pas à zéro: décrement sa valeur
         setTotalAllTimers((totalAllTimers) => totalAllTimers - 1);
-
         setMsgAction((msgAction) => "work");
-        // -- dans un des timer: decrement la valeur du timer en cours
         if (totalAllSeconds > 0) {
           setTotalAllSeconds((duration) => duration - 1);
-
-          // decrement duration + pause
           if (durationAndPause > 1) {
             setDurationAndPause((durationAndPause) => durationAndPause - 1);
             if (durationAndPause > pause + 1) {
@@ -210,11 +83,10 @@ const Tabata = () => {
             );
           }
         } else {
-          // --- quand on change de timer
           setType(value.posts[numTimer + 1].type);
           setMsgAction((msgAction) => `work: next timer`);
           setTitle(value.posts[numTimer + 1].title);
-          setNumTimer((numTimer) => numTimer + 1); // decrement ref to timer
+          setNumTimer((numTimer) => numTimer + 1); 
           setActualTimer(actualTimer - 1);
           setTotalAllSeconds(extractTimerValues[numTimer + 1] - 1);
           setInitTotalAllSeconds(extractTimerValues[numTimer + 1]);
@@ -231,7 +103,6 @@ const Tabata = () => {
           setRepeat(value.posts[numTimer + 1].repeat + 1);
         }
       } else if (totalAllTimers === 0) {
-        // end
         setMsgAction((msgAction) => "workout completed!");
         setInitTotalAllSeconds(0);
         setActualTimer(0);
@@ -277,20 +148,6 @@ const Tabata = () => {
     totalAllTimers,
     value.posts,
     duration,
-
-    /* isActive,
-    actualTimer,
-    extractTimerValues,
-    numTimer,
-    totalTimer,
-    totalAllTimers,
-    totalAllSeconds,
-    pause,
-    repeat,
-    duration,
-    valDurationAndPause,
-    durationAndPause, */
-    //value.posts,
   ]);
 
   return (
@@ -318,7 +175,6 @@ const Tabata = () => {
                 </div>
               </>
             )}
-
             {type === "tabata" && (
               <>
                 <div className="info">
@@ -330,7 +186,6 @@ const Tabata = () => {
                 </div>
               </>
             )}
-
             <div className="info">
               <p className="titleInfo">Total</p>
               <p className="numInfo">
@@ -355,28 +210,7 @@ const Tabata = () => {
                 }}>
                 Back to config
               </button>
-
-              <br />
-              {/*  <button
-                onClick={() => {
-                  console.log(value.posts);
-                }}>
-                history
-              </button> */}
-              <br />
-
-              {/*  <Link to={`/record/?${peggy}`}>
-                test ------
-              </Link> */}
-              <br></br>
-              <br></br>
-              {/* <button
-                className="button-big"
-                onClick={() => handleQueryParamsChange()}>
-                Save Settings
-              </button> */}
             </div>
-
             {!isFinish && (
               <>
                 <button

@@ -22,7 +22,6 @@ const TabataInput = () => {
   const [duration, setDuration] = useState(selectedPost?.duration ?? "");
   const [repeat, setNumRepeat] = useState(selectedPost?.repeat ?? "");
   const [pause, setPause] = useState(selectedPost?.pause ?? "");
-
   const type = "tabata";
 
   return (

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import logo from "./hp.png";
-//import { ReactComponent as Logo } from "./hp.svg";
 
 const HomePage = () => {
   return (

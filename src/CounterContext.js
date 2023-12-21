@@ -1,13 +1,9 @@
 import { useState, useContext } from "react";
-
 import { BlogContext } from "./BlogProvider";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
-
-//import { useNavigate } from "react-router";
 
 const encodeSearchParams = (params) => createSearchParams(params);
 
@@ -32,43 +28,28 @@ const Blog = () => {
     useContext(BlogContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [saveSettings, setSaveSettings] = useState(false);
 
   function handleQueryParamsChange() {
     const params = {
       filters: JSON.stringify(posts),
-      //anotherField: "Simple String", // ----------------------------- / record ????
     };
-    //localStorage.clear();
     setSearchParams(encodeSearchParams(params));
     setSaveSettings(true);
   }
 
-  //data = decodeSearchParams(searchParams).filters;
-
-  //const urlQuery = decodeSearchParams(searchParams).filters;
-  //console.log("test---?", urlQuery);
-  //const [url, setUrl] = useState(urlQuery);
-
   function loadPost() {
     setPosts(decodeSearchParams(searchParams).filters ?? []);
     localStorage.clear();
-    //console.log("loading...", decodeSearchParams(searchParams).filters);
   }
 
   function reset() {
     setPosts([]);
     localStorage.clear();
-    console.log("reset");
     setSaveSettings(false);
   }
 
-  // ----- drag & Drop ---------
   const handleDrag = (results) => {
-    //console.log("results", results);
-    console.log("posts", posts);
-
     const { source, destination, type } = results;
     if (!destination) return;
     if (
@@ -82,28 +63,12 @@ const Blog = () => {
       const destinationIndex = destination.index;
       const [removedStore] = reorderedStores.splice(sourceIndex, 1);
       reorderedStores.splice(destinationIndex, 0, removedStore);
-
       return setPosts(reorderedStores);
     }
   };
 
-  //const navigate = useNavigate();
-
   return (
     <>
-      {/*  <div>
-        <input
-          value={urlFriend}
-          onChange={(e) => {
-            setUrlFriend(e.target.value);
-            window.location.hash = encodeURIComponent(urlFriend);
-          }}
-        />
-      </div> */}
-
-      {/*  <div>
-        <button onClick={loadPost}>Load Posts</button>
-      </div> */}
       <div className="displayResult"></div>
       <div className="counter-container">
         <div className="panel">
@@ -123,7 +88,6 @@ const Blog = () => {
               Load Workout
             </button>
           </div>
-
           <DragDropContext onDragEnd={handleDrag}>
             <Droppable
               droppableId="ROOT"

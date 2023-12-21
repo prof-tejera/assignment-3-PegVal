@@ -7,10 +7,7 @@ import XyInput from "./XyInput";
 
 const Editor = () => {
   const navigate = useNavigate();
-
-  // Destructuring
   const { selectedPost } = useContext(BlogContext);
-
   const [type, setType] = useState(selectedPost?.type ?? "");
 
   return (
@@ -67,7 +64,6 @@ const Editor = () => {
               <XyInput />
             </>
           )}
-
           {type === "countdown" && (
             <>
               <CountDownInput />

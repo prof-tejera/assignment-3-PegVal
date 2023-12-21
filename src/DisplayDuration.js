@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const DisplayDuration = () => {
   const value = React.useContext(BlogContext);
-
   const extractTimerValues = value.posts.map((what) => {
     const duration = what.duration;
     const repeat = what.repeat;
@@ -35,10 +34,8 @@ const DisplayDuration = () => {
               </Link>
             </div>
           </div>
-
           <h2>WORKOUT</h2>
         </div>
-
         <div className="center-align">
           <div className="resultBox">
             <div className="resultNum">{value.postCount}</div>
