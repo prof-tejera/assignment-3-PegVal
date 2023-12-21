@@ -87,8 +87,10 @@ const Blog = () => {
                 icon={faStopwatch20}
                 style={{ color: "#e4be74" }}
                 size="4x"
-              /><br/>
-              Load workout
+              />
+              <br />
+              Load sent workout
+              <p className="small">(This will delete any other configuration)</p>
             </button>
           </div>
           <div className="header">

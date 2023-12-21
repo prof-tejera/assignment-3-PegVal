@@ -12,6 +12,10 @@
    font-size: 1.3rem;
 }
 
+.small{
+   font-size: .7rem;
+   margin-top: 0px;
+}
 
 .icon{
    border: 0;
