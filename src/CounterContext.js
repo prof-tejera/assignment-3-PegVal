@@ -5,6 +5,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
 
+//import ReactDOM from "react-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStopwatch20 } from "@fortawesome/free-solid-svg-icons";
+
 const encodeSearchParams = (params) => createSearchParams(params);
 
 const decodeSearchParams = (searchParams) => {
@@ -24,6 +28,9 @@ const decodeSearchParams = (searchParams) => {
 };
 
 const Blog = () => {
+  //const loading = <FontAwesomeIcon icon="fa-solid fa-stopwatch-20" style={{color: "#5da25f",}} />
+
+
   const { posts, openPost, openEditor, deletePost, editorOpen, setPosts } =
     useContext(BlogContext);
 
@@ -72,6 +79,18 @@ const Blog = () => {
       <div className="displayResult"></div>
       <div className="counter-container">
         <div className="panel">
+          <div className="load">
+            <button
+              onClick={loadPost}
+              class="icon">
+              <FontAwesomeIcon
+                icon={faStopwatch20}
+                style={{ color: "#e4be74" }}
+                size="4x"
+              /><br/>
+              Load workout
+            </button>
+          </div>
           <div className="header">
             <div className="text">List of Workout </div>
 
@@ -82,11 +101,6 @@ const Blog = () => {
                 Add a timer
               </button>
             </Link>
-            <button
-              className="button-counter"
-              onClick={loadPost}>
-              Load Workout
-            </button>
           </div>
           <DragDropContext onDragEnd={handleDrag}>
             <Droppable
