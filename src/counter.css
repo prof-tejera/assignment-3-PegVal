@@ -4,6 +4,15 @@
       font-size: .9rem;
 }
 
+
+.infoCounter{
+   margin-top: 10px;
+   text-align: center;
+   font-weight: 900;
+   font-size: 1.3rem;
+}
+
+
 .icon{
    border: 0;
    background-color: #fff;
@@ -114,7 +123,7 @@ h2 {
       text-align: center;
       color: #fff;
       line-height: 0;
-      margin-top: 35px;
+      margin-top: -25px;
 }
 
 .h2-dark {
@@ -395,6 +404,7 @@ input[type=text]:focus {
       padding: 20px;
       padding-top: 100px;
       padding-bottom: 40px;
+      height: 72vh;
 }
 
 
@@ -460,10 +470,11 @@ input[type=text]:focus {
 
 .timerDisplaySecond {
       font-family: 'Montserrat', sans-serif;
-      font-size: 100px;
-      font-weight: 600;
+      font-size: 70px;
+      font-weight: 900;
       letter-spacing: -2px;
       text-align: center;
+      margin-top: 30px;
 }
 
 .timerSecond {
@@ -585,38 +596,42 @@ input[type=text]:focus {
 
 .button-home {
       text-align: center;
-      width: 100px;
+      width: 150px;
       padding: 10px;
-      margin: 5px;
+      margin: 15px;
+      margin-right: 200px;
+      margin-top: 50px;
       text-transform: uppercase;
-      font-weight: 600;
-      font-size: .7rem;
-      background-color: #6b76bc;
+      font-weight: 400;
+      font-size: 1.1rem;
+      background-color: #b8c168;
       color: #fff;
       border: 0;
-
+      letter-spacing: .2rem;
 }
 
 .button-home:hover {
-      background-color: #b8c168;
+      background-color: #6b76bc;
 }
 
 .button-history {
-      text-align: center;
-      width: 100px;
+     text-align: center;
+      width: 150px;
       padding: 10px;
-      margin: 5px;
+      margin: 15px;
+      margin-top: 50px;
+      margin-left: 200px;
       text-transform: uppercase;
-      font-weight: 600;
-      font-size: .7rem;
-      background-color: #6b76bc;
+      font-weight: 400;
+      font-size: 1.1rem;
+      background-color: #b8c168;
       color: #fff;
       border: 0;
-
+      letter-spacing: .2rem;
 }
 
 .button-history:hover {
-      background-color: #b8c168;
+      background-color: #6b76bc;
 }
 
 

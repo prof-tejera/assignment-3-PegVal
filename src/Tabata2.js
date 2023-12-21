@@ -35,7 +35,7 @@ const Tabata = () => {
   );
 
   const [totalAllTimers, setTotalAllTimers] = usePersistedState("total-all-timers", totalTiming);
-  const [msgAction, setMsgAction] = usePersistedState("msg", "ready?");
+  const [msgAction, setMsgAction] = usePersistedState("msg", "Ready? Steady?");
   const [numTimer, setNumTimer] = usePersistedState("num-timer", 0);
   const [actualTimer, setActualTimer] = usePersistedState("actual-timer", totalTimer);
   const [totalAllSeconds, setTotalAllSeconds] = usePersistedState("total-all-seconds", extractTimerValues[0]);
@@ -60,15 +60,15 @@ const Tabata = () => {
     const interval = setInterval(() => {
       if (totalAllTimers > 0 && isActive) {
         setTotalAllTimers((totalAllTimers) => totalAllTimers - 1);
-        setMsgAction((msgAction) => "work");
+        setMsgAction((msgAction) => "Go! Workout...");
         if (totalAllSeconds > 0) {
           setTotalAllSeconds((duration) => duration - 1);
           if (durationAndPause > 1) {
             setDurationAndPause((durationAndPause) => durationAndPause - 1);
             if (durationAndPause > pause + 1) {
-              setMsgAction((msgAction) => "work");
+              setMsgAction((msgAction) => "Workout...");
             } else {
-              setMsgAction((msgAction) => "pause");
+              setMsgAction((msgAction) => "Pause...");
               setPause((pause) => pause - 1);
             }
           }
@@ -77,14 +77,14 @@ const Tabata = () => {
             setDurationAndPause(
               value.posts[numTimer].duration + value.posts[numTimer].pause
             );
-            setMsgAction((msgAction) => `work:~\n new round`);
+            setMsgAction((msgAction) => `New Round!`);
             setPause(
               value.posts[numTimer].pause !== "" ? value.posts[0].pause : 0
             );
           }
         } else {
           setType(value.posts[numTimer + 1].type);
-          setMsgAction((msgAction) => `work: next timer`);
+          setMsgAction((msgAction) => `Next Timer!`);
           setTitle(value.posts[numTimer + 1].title);
           setNumTimer((numTimer) => numTimer + 1); 
           setActualTimer(actualTimer - 1);
@@ -103,7 +103,7 @@ const Tabata = () => {
           setRepeat(value.posts[numTimer + 1].repeat + 1);
         }
       } else if (totalAllTimers === 0) {
-        setMsgAction((msgAction) => "workout completed!");
+        setMsgAction((msgAction) => "Workout Completed!");
         setInitTotalAllSeconds(0);
         setActualTimer(0);
         setIsActive(false);
@@ -161,7 +161,7 @@ const Tabata = () => {
             <div className="timerDisplaySecond">
               {totalAllSeconds}/{initTotalAllSeconds}
             </div>
-            <div class="infoCounter">{msgAction}</div>
+            <div className="infoCounter">{msgAction}</div>
           </div>
           <div className="infoBoxContent">
             {(type === "xy" || type === "tabata") && (
