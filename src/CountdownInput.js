@@ -64,7 +64,7 @@ const CountdownInput = () => {
                   pause,
                   type,
                 });
-                navigate("/");
+                navigate(-1);
               }}>
               Save
             </button>
@@ -74,5 +74,9 @@ const CountdownInput = () => {
     </>
   );
 };
+
+
+
+
 
 export default CountdownInput;

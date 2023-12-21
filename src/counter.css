@@ -556,6 +556,24 @@ input[type=text]:focus {
 .button-big:hover {
       background-color: #5c9e63;
 }
+.button-big-red {
+   box-sizing: border-box;
+   text-align: center;
+   padding: 10px;
+   margin: 5px;
+   width: 180px;
+   height: 40px;
+   text-transform: uppercase;
+   font-weight: 600;
+   font-size: .7rem;
+   background-color: #b2239f;
+   border: solid 4px rgba(255, 255, 255, 0.2);
+   color: #fff;
+}
+
+.button-big-red:hover {
+   background-color: #610e56;
+}
 
 
 .button-elem {

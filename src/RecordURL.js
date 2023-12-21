@@ -1,20 +1,15 @@
-import { useState, useContext, useEffect } from "react";
-
+import { useContext } from "react";
 import { BlogContext } from "./BlogProvider";
 import { Link } from "react-router-dom";
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
 
-import { useNavigate } from "react-router";
-
-
-
 const encodeSearchParams = (params) => createSearchParams(params);
 
 const decodeSearchParams = (searchParams) => {
-  return [...searchParams.entries()].reduce((acc,[key, val]) => {
+  return [...searchParams.entries()].reduce((acc, [key, val]) => {
     try {
       return {
         ...acc,
@@ -23,64 +18,33 @@ const decodeSearchParams = (searchParams) => {
     } catch {
       return {
         ...acc,
-        [key]:val,
+        [key]: val,
       };
     }
   }, {});
 };
 
-
-
-
-const Blog = () => {
-  const { posts, openPost, openEditor, deletePost, editorOpen, setPosts } =
+const RecordURL = () => {
+  const { posts, editorOpen, setPosts } =
     useContext(BlogContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [saveSettings, setSaveSettings] = useState(false);
-
   function handleQueryParamsChange() {
     const params = {
       filters: JSON.stringify(posts),
-      //anotherField: "Simple String", // ----------------------------- / record ????
     };
-    //localStorage.clear();
     setSearchParams(encodeSearchParams(params));
-    setSaveSettings(true);
+    console.log(decodeSearchParams(searchParams).filters);
   }
-
-  //data = decodeSearchParams(searchParams).filters;
-
-  const urlQuery = decodeSearchParams(searchParams).filters;
-  //console.log("test---?", urlQuery);
-  //const [url, setUrl] = useState(urlQuery);
-
 
   function loadPost() {
-    setPosts(decodeSearchParams(searchParams).filters ?? []);
-    localStorage.clear();
-    //console.log("loading...", decodeSearchParams(searchParams).filters);
-  }
-
-  // ------------- test Nico ----------------------------------------
-  const [urlFriend, setUrlFriend] = useState(() => {
-    //setPosts(decodeSearchParams(searchParams).filters ?? []);
-    //localStorage.clear(); /// -------------------------------------lorsqu"on lance le workout
-
-    //const hash = (window.location.hash ?? "").slice(1);
-    //return decodeURIComponent(hash);
-  });
-
-  function reset(){
-    setPosts([]);
-    localStorage.clear();
-    console.log("reset");
-    setSaveSettings(false);
+    setPosts(decodeSearchParams(searchParams).filters);
+    console.log("test", posts);
   }
 
 
-
+//setPosts(decodeSearchParams(searchParams).filters);
 
 
   // ----- drag & Drop ---------
@@ -106,48 +70,18 @@ const Blog = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const goToPosts = () =>
-    navigate({
-      pathname: "/record/",
-      /* search: `?${createSearchParams(urlQuery)}`, */
-    });
-
   return (
     <>
-      {/*  <div>
-        <input
-          value={urlFriend}
-          onChange={(e) => {
-            setUrlFriend(e.target.value);
-            window.location.hash = encodeURIComponent(urlFriend);
-          }}
-        />
-      </div> */}
-
-      {/*  <div>
+  
+      <div>
         <button onClick={loadPost}>Load Posts</button>
-      </div> */}
+      </div>
       <div className="displayResult"></div>
       <div class="counter-container">
         <div className="panel">
           <div className="header">
-            <div className="text">List of Workout </div>
-
-            <Link to="/add">
-              <button
-                className="button-counter"
-                onClick={() => openEditor()}>
-                Add a timer
-              </button>
-            </Link>
-            <button
-              className="button-counter"
-              onClick={loadPost}>
-              Load Posts
-            </button>
+            <div className="text">Registered Workout </div>
           </div>
-
           <DragDropContext onDragEnd={handleDrag}>
             <Droppable
               droppableId="ROOT"
@@ -182,18 +116,8 @@ const Blog = () => {
                                   style={{ flex: 1 }}>
                                   {p.title}
                                 </div>
-                                <Link to="/add">
-                                  <button
-                                    onClick={() => openPost({ id: p.id })}
-                                    className="button-counter">
-                                    Edit
-                                  </button>
-                                </Link>
-                                <button
-                                  onClick={() => deletePost({ id: p.id })}
-                                  className="button-counter">
-                                  Delete
-                                </button>
+                               
+                              
                               </div>
 
                               <div>
@@ -211,31 +135,16 @@ const Blog = () => {
               )}
             </Droppable>
           </DragDropContext>
-          <div className="footer-counter">
-            {posts[0] && (
-                <button
-                  className="button-big"
-                  onClick={() => reset()}>
-                  Reset
-                </button>
-            )}
-            {!saveSettings && posts[0] && (
-              <button
-                className="button-big"
-                onClick={() => handleQueryParamsChange()}>
-                Save Settings
-              </button>
-            )}
-            {saveSettings && (
-              <Link to="/tabata">
-                <button
-                  className="button-big-red"
-                  onClick={() => loadPost()}>
-                  Start Workout
-                </button>
-              </Link>
-            )}
-          </div>
+          {posts[0] && (
+            <>
+              
+              <div className="footer-counter">
+                <Link to="/tabata">
+                  <button className="button-big">Start Workout</button>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
         {editorOpen}
       </div>
@@ -243,4 +152,5 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+
+export default RecordURL;

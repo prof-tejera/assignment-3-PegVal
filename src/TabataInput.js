@@ -76,7 +76,7 @@ const TabataInput = () => {
                   pause,
                   type,
                 });
-                navigate("/");
+                navigate(-1);
               }}>
               Save
             </button>

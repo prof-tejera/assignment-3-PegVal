@@ -2,42 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { BlogContext } from "./BlogProvider";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router"; // -----------------
-
-
-// --------------- à mettre dans HOOKS -------------------
-const usePersistedState = (localStorageKey, initialValue) => {
-  const [value, setValue] = useState(() => {
-    const storedValue = window.localStorage.getItem(localStorageKey);
-    if (!storedValue) return initialValue;
-    return JSON.parse(storedValue);
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(localStorageKey, JSON.stringify(value));
-  }, [localStorageKey, value]);
-
-  return [value, setValue];
-};
-
-
-
-
 
 const Tabata = () => {
-  const navigate = useNavigate(); // -------------
   const value = React.useContext(BlogContext);
   const totalTimer = value.postCount;
+  const [isActive, setIsActive] = useState(false);
+  const [isFinish, setIsFinish] = useState(false);
 
-  //const [isActive, setIsActive] = useState(false);
-  const [isActive, setIsActive] = usePersistedState("is-active", false);
-
-  //const [isFinish, setIsFinish] = useState(false);
-  const [isFinish, setIsFinish] = usePersistedState("is-finish", false);
-
-  //const [type, setType] = useState(value.posts[0].type);
-  const [type, setType] = usePersistedState("type", value.posts[0].type);
-  
+  const [type, setType] = useState(value.posts[0].type);
 
   const extractTimerValues = value.posts.map((what) => {
     const total = (what.duration + what.pause) * (what.repeat + 1);
@@ -49,86 +21,33 @@ const Tabata = () => {
     0
   );
 
-  //const [totalAllTimers, setTotalAllTimers] = useState(totalTiming); // durée de l'ensemble du workout
-  const [totalAllTimers, setTotalAllTimers] = usePersistedState(
-    "total-all-timers",
-    totalTiming
-  );
-
-  //const [msgAction, setMsgAction] = useState("ready?"); // message de fin
-  const [msgAction, setMsgAction] = usePersistedState("msg", "ready?");
-
-  //const [numTimer, setNumTimer] = useState(0); // la ref du timer pour le countdown
-  const [numTimer, setNumTimer] = usePersistedState("num-timer", 0);
-
-  //const [actualTimer, setActualTimer] = useState(totalTimer); // la ref du timer à appeler
-  const [actualTimer, setActualTimer] = usePersistedState(
-    "actual-timer",
-    totalTimer
-  );
-
-  //const [totalAllSeconds, setTotalAllSeconds] = useState(extractTimerValues[0]); // durée pour un timer en particulier
-  const [totalAllSeconds, setTotalAllSeconds] = usePersistedState(
-    "total-all-seconds",
-    extractTimerValues[0]
-  );
-
-  //const [initTotalAllSeconds, setInitTotalAllSeconds] = useState(totalAllSeconds);
-  const [initTotalAllSeconds, setInitTotalAllSeconds] = usePersistedState(
-    "init-total-all-seconds",
-    totalAllSeconds
-  );
-
-  //const [title, setTitle] = useState(value.posts[0].title !== "" ? value.posts[0].title : "No title");
-  const [title, setTitle] = usePersistedState(
-    "title",
+  const [totalAllTimers, setTotalAllTimers] = useState(totalTiming); // durée de l'ensemble du workout
+  const [msgAction, setMsgAction] = useState("ready?"); // message de fin
+  const [numTimer, setNumTimer] = useState(0); // la ref du timer pour le countdown
+  const [actualTimer, setActualTimer] = useState(totalTimer); // la ref du timer à appeler
+  const [totalAllSeconds, setTotalAllSeconds] = useState(extractTimerValues[0]); // durée pour un timer en particulier
+  const [initTotalAllSeconds, setInitTotalAllSeconds] =
+    useState(totalAllSeconds);
+  const [title, setTitle] = useState(
     value.posts[0].title !== "" ? value.posts[0].title : "No title"
   );
-
-  //const [valRepeat, setValRepeat] = useState(value.posts[0].repeat + 1); // valeur initiale
-  const [valRepeat, setValRepeat] = usePersistedState(
-    "val-repeat",
-    value.posts[0].repeat + 1
-  );
-
-  //const [repeat, setRepeat] = useState(valRepeat); // valeur à décrémenter
-  const [repeat, setRepeat] = usePersistedState("repeat", valRepeat);
-
-  //const [valPause, setValPause] = useState(value.posts[0].pause !== "" ? value.posts[0].pause : 0); // valeur initiale
-  const [valPause, setValPause] = usePersistedState(
-    "val-pause",
+  const [valRepeat, setValRepeat] = useState(value.posts[0].repeat + 1); // valeur initiale
+  const [repeat, setRepeat] = useState(valRepeat); // valeur à décrémenter
+  const [valPause, setValPause] = useState(
     value.posts[0].pause !== "" ? value.posts[0].pause : 0
-  );
+  ); // valeur initiale
+  const [pause, setPause] = useState(valPause); // valeur à décrémenter
+  const [remaining, setRemaining] = useState(totalTiming);
 
-  //const [pause, setPause] = useState(valPause); // valeur à décrémenter
-  const [pause, setPause] = usePersistedState("pause", valPause);
+  const [workout, setWorkout] = useState(totalTimer);
 
-  //const [remaining, setRemaining] = useState(totalTiming);
-  const [remaining, setRemaining] = usePersistedState("remaining", totalTiming);
-
-  //const [workout, setWorkout] = useState(totalTimer);
-  const [workout, setWorkout] = usePersistedState("workout", totalTimer);
-
-  //const valDuration = useState(value.posts[0].duration); // valeur initiale
-  const valDuration = usePersistedState(
-    "val-duration",
-    value.posts[0].duration
-  );
-
-  //const duration = useState(valDuration); // valeur à décrémenter
-  const duration = usePersistedState("duration", valDuration);
-
-  //const valDurationAndPause = useState(value.posts[0].duration + value.posts[0].pause); // valeur intiale */
-  const valDurationAndPause = usePersistedState(
-    "val-duration-and-pause",
+  const valDuration = useState(value.posts[0].duration); // valeur initiale
+  const duration = useState(valDuration); // valeur à décrémenter
+  const valDurationAndPause = useState(
     value.posts[0].duration + value.posts[0].pause
-  );
+  ); // valeur intiale */
 
-  //const [durationAndPause, setDurationAndPause] = useState(valDurationAndPause); // valeur à décrementer
-  const [durationAndPause, setDurationAndPause] = usePersistedState(
-    "duration-and-pause",
-    valDurationAndPause
-  );
+  const [durationAndPause, setDurationAndPause] = useState(valDurationAndPause); // valeur à décrementer
 
   function toggle() {
     setIsActive(!isActive);
@@ -139,7 +58,6 @@ const Tabata = () => {
       if (totalAllTimers > 0 && isActive) {
         // tant que le timer général n'est pas à zéro: décrement sa valeur
         setTotalAllTimers((totalAllTimers) => totalAllTimers - 1);
-
         setMsgAction((msgAction) => "work");
         // -- dans un des timer: decrement la valeur du timer en cours
         if (totalAllSeconds > 0) {
@@ -205,36 +123,7 @@ const Tabata = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [
-    setActualTimer,
-    setDurationAndPause,
-    setInitTotalAllSeconds,
-    setIsActive,
-    setIsFinish,
-    setMsgAction,
-    setNumTimer,
-    setPause,
-    setRemaining,
-    setRepeat,
-    setTitle,
-    setTotalAllSeconds,
-    setTotalAllTimers,
-    setType,
-    setValPause,
-    setValRepeat,
-    setWorkout,
-    actualTimer,
-    durationAndPause,
-    extractTimerValues,
     isActive,
-    numTimer,
-    pause,
-    repeat,
-    totalAllSeconds,
-    totalAllTimers,
-    value.posts,
-    duration,
-
-    /* isActive,
     actualTimer,
     extractTimerValues,
     numTimer,
@@ -245,8 +134,8 @@ const Tabata = () => {
     repeat,
     duration,
     valDurationAndPause,
-    durationAndPause, */
-    //value.posts,
+    durationAndPause,
+    value.posts,
   ]);
 
   return (
@@ -304,19 +193,10 @@ const Tabata = () => {
           </div>
           <div className="buttonContent">
             <div>
-              <button
-                className="button-elem"
-                onClick={() => {
-                  navigate(-1);
-                }}>
-                Back to config
-              </button>
-             {/*  <Link to="/">
+              <Link to="/">
                 <button className="button-elem">Back to config</button>
-              </Link> */}
+              </Link>
             </div>
-
-
             {!isFinish && (
               <>
                 <button

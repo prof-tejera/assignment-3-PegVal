@@ -3,12 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./counter.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import ErrorBoundary from "./ErrorBoundary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-
+  <ErrorBoundary fallback="Oops. An error has occurred!">
     <App />
-
+  </ErrorBoundary>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,12 +1,34 @@
 import React from "react";
+import { useEffect } from "react"; // --------------pour local storage
 import { makeId } from "./util";
 import { useState } from "react";
 
 export const BlogContext = React.createContext({});
 
+//const LOCAL_STORAGE_KEY = "blog-post"; // Local storage
+
+const usePersistedState = (localStorageKey, initialValue) => {
+  const [value, setValue] = useState(() => {
+    const storedValue = window.localStorage.getItem(localStorageKey);
+    if (!storedValue) return initialValue;
+    return JSON.parse(storedValue);
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(localStorageKey, JSON.stringify(value));
+  }, [localStorageKey, value]);
+
+  return [value, setValue];
+}
+
+
+
+
 const BlogProvider = ({ children }) => {
-  const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
+
+  //const [posts, setPosts] = useState([]); // remettre si ça ne va pas
+  const [posts, setPosts] = usePersistedState("blog-posts", []); // -------------------------------- local storage
 
   const closeEditor = () => {
     setSelectedPost(null);
