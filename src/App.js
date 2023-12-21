@@ -7,6 +7,8 @@ import Blog from "./CounterContext";
 import DisplayDuration from "./DisplayDuration";
 import Tabata from "./Tabata2";
 import Editor from "./Editor";
+import HomePage from "./HomePage";
+
 import Documentation from "./DocumentationView";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -21,7 +23,7 @@ const Inner = () => {
       />
       <Route
         path="/"
-        element={[<DisplayDuration />, <Blog />]}
+        element={<HomePage />}
       />
       <Route
         path="/workout"

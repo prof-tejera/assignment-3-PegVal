@@ -1,9 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { BlogContext } from "./BlogProvider";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router"; // -----------------
+//import { Link } from "react-router-dom";
+import { useNavigate } from "react-router"; // ----------------- history
 
+//import { useSearchParams } from "react-router-dom";
+//import { createSearchParams } from "react-router-dom";
+
+//const encodeSearchParams = (params) => createSearchParams(params);
 
 // --------------- à mettre dans HOOKS -------------------
 const usePersistedState = (localStorageKey, initialValue) => {
@@ -20,13 +24,31 @@ const usePersistedState = (localStorageKey, initialValue) => {
   return [value, setValue];
 };
 
-
-
-
+// -------- persistent state ---
+/* const decodeSearchParams = (searchParams) => {
+  return [...searchParams.entries()].reduce((acc, [key, val]) => {
+    try {
+      return {
+        ...acc,
+        [key]: JSON.parse(val),
+      };
+    } catch {
+      return {
+        ...acc,
+        [key]: val,
+      };
+    }
+  }, {});
+}; */
 
 const Tabata = () => {
+  //const [searchParams, setSearchParams] = useSearchParams(); // persistent -----------------
+  //const searchParams = useSearchParams(); // --- persistent
+
   const navigate = useNavigate(); // -------------
-  const value = React.useContext(BlogContext);
+
+  const value = React.useContext(BlogContext); // -------- context
+
   const totalTimer = value.postCount;
 
   //const [isActive, setIsActive] = useState(false);
@@ -37,7 +59,6 @@ const Tabata = () => {
 
   //const [type, setType] = useState(value.posts[0].type);
   const [type, setType] = usePersistedState("type", value.posts[0].type);
-  
 
   const extractTimerValues = value.posts.map((what) => {
     const total = (what.duration + what.pause) * (what.repeat + 1);
@@ -48,6 +69,29 @@ const Tabata = () => {
     (accumulator, currentValue) => accumulator + currentValue,
     0
   );
+
+  // ---------- History ----------------
+
+  /*  const history = useNavigate();
+  
+
+  function handleClick() {
+    history.push("/my-page", { data });
+  } */
+
+  /* function handleQueryParamsChange() {
+  const params = {
+    filters: JSON.stringify(value.posts),
+    //anotherField: "Simple String", // ----------------------------- / record ????
+  };
+  //localStorage.clear();
+  setSearchParams(encodeSearchParams(params));
+  //setSaveSettings(true);
+} */
+
+  //const peggy = handleQueryParamsChange;
+
+  // ---------- end History ----------------
 
   //const [totalAllTimers, setTotalAllTimers] = useState(totalTiming); // durée de l'ensemble du workout
   const [totalAllTimers, setTotalAllTimers] = usePersistedState(
@@ -311,11 +355,27 @@ const Tabata = () => {
                 }}>
                 Back to config
               </button>
-             {/*  <Link to="/">
-                <button className="button-elem">Back to config</button>
-              </Link> */}
-            </div>
 
+              <br />
+              {/*  <button
+                onClick={() => {
+                  console.log(value.posts);
+                }}>
+                history
+              </button> */}
+              <br />
+
+              {/*  <Link to={`/record/?${peggy}`}>
+                test ------
+              </Link> */}
+              <br></br>
+              <br></br>
+              {/* <button
+                className="button-big"
+                onClick={() => handleQueryParamsChange()}>
+                Save Settings
+              </button> */}
+            </div>
 
             {!isFinish && (
               <>

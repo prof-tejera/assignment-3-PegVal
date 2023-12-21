@@ -1,14 +1,16 @@
 import { useContext } from "react";
 import { BlogContext } from "./BlogProvider";
-import { Link } from "react-router-dom";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useNavigate } from "react-router";
 
-import { useSearchParams } from "react-router-dom";
-import { createSearchParams } from "react-router-dom";
+//import { Link } from "react-router-dom";
+//import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const encodeSearchParams = (params) => createSearchParams(params);
+//import { useSearchParams } from "react-router-dom";
+//import { createSearchParams } from "react-router-dom";
 
-const decodeSearchParams = (searchParams) => {
+//const encodeSearchParams = (params) => createSearchParams(params);
+
+/* const decodeSearchParams = (searchParams) => {
   return [...searchParams.entries()].reduce((acc, [key, val]) => {
     try {
       return {
@@ -22,15 +24,35 @@ const decodeSearchParams = (searchParams) => {
       };
     }
   }, {});
-};
+}; */
 
 const RecordURL = () => {
-  const { posts, editorOpen, setPosts } =
-    useContext(BlogContext);
+  //const searchParams = new URLSearchParams(props.location.search);
+  //const test = searchParams.get("posts");
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { posts } = useContext(BlogContext);
+  const navigate = useNavigate();
 
-  function handleQueryParamsChange() {
+  //const totalTimer = posts.postCount;
+
+  const extractTimerValues = posts.map((what) => {
+    const total = (what.duration + what.pause) * (what.repeat + 1);
+    return total;
+  });
+
+  const totalTiming = extractTimerValues.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+
+  // ------ history -----
+  //const searchParams = new URLSearchParams(props.location.search);
+  //const duration = searchParams.get("nduration");
+  //const type = searchParams.get("type");
+
+  //const [searchParams, setSearchParams] = useSearchParams();
+
+  /* function handleQueryParamsChange() {
     const params = {
       filters: JSON.stringify(posts),
     };
@@ -41,14 +63,12 @@ const RecordURL = () => {
   function loadPost() {
     setPosts(decodeSearchParams(searchParams).filters);
     console.log("test", posts);
-  }
+  } */
 
-
-//setPosts(decodeSearchParams(searchParams).filters);
-
+  //setPosts(decodeSearchParams(searchParams).filters);
 
   // ----- drag & Drop ---------
-  const handleDrag = (results) => {
+  /*   const handleDrag = (results) => {
     //console.log("results", results);
     console.log("posts", posts);
 
@@ -68,89 +88,46 @@ const RecordURL = () => {
 
       return setPosts(reorderedStores);
     }
-  };
+  }; */
 
   return (
     <>
-  
-      <div>
-        <button onClick={loadPost}>Load Posts</button>
-      </div>
-      <div className="displayResult"></div>
-      <div class="counter-container">
-        <div className="panel">
-          <div className="header">
-            <div className="text">Registered Workout </div>
-          </div>
-          <DragDropContext onDragEnd={handleDrag}>
-            <Droppable
-              droppableId="ROOT"
-              type="group">
-              {(provided) => (
+      <div className="counter-container">
+        <div className="counter-container">
+          <div className="panel">
+            <div className="header">
+              <div className="text">Registered Workout </div>
+            </div>
+            <div>
+              xxxx
+              <br />
+              In this Workout, there was {posts.length} timers for a total
+              duration of {totalTiming} seconds.
+              <br />
+              <br />
+              {posts.map((p, index) => (
                 <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}>
-                  {posts.map((p, index) => (
-                    <Draggable
-                      draggableId={p.id}
-                      key={p.id}
-                      index={index}>
-                      {(provided) => (
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}>
-                          <div
-                            key={p.id}
-                            index={index}
-                            class="workout-container">
-                            <div
-                              style={{
-                                backgroundColor: "#f2f2f2",
-                                padding: 20,
-                                marginBottom: 20,
-                              }}>
-                              <div style={{ display: "flex" }}>
-                                <div
-                                  className="title-workout"
-                                  style={{ flex: 1 }}>
-                                  {p.title}
-                                </div>
-                               
-                              
-                              </div>
-
-                              <div>
-                                {p.type}. Duration {p.duration}s / pause{" "}
-                                {p.pause}s / times {p.repeat + 1}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
+                  key={p.id}
+                  index={index}
+                  className="workout-container">
+                  - "{p.title}" is a {p.type} of {p.duration} seconds with{" "}
+                  {p.pause} pause, to be repeated {p.repeat + 1} number of time
                 </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-          {posts[0] && (
-            <>
-              
-              <div className="footer-counter">
-                <Link to="/tabata">
-                  <button className="button-big">Start Workout</button>
-                </Link>
-              </div>
-            </>
-          )}
+              ))}
+            </div>
+
+            <button
+              className="button-big"
+              onClick={() => {
+                navigate(-1);
+              }}>
+              Back
+            </button>
+          </div>
         </div>
-        {editorOpen}
       </div>
     </>
   );
 };
-
 
 export default RecordURL;

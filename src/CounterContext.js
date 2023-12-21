@@ -1,20 +1,18 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 
 import { BlogContext } from "./BlogProvider";
 import { Link } from "react-router-dom";
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
 
-import { useNavigate } from "react-router";
-
-
+//import { useNavigate } from "react-router";
 
 const encodeSearchParams = (params) => createSearchParams(params);
 
 const decodeSearchParams = (searchParams) => {
-  return [...searchParams.entries()].reduce((acc,[key, val]) => {
+  return [...searchParams.entries()].reduce((acc, [key, val]) => {
     try {
       return {
         ...acc,
@@ -23,14 +21,11 @@ const decodeSearchParams = (searchParams) => {
     } catch {
       return {
         ...acc,
-        [key]:val,
+        [key]: val,
       };
     }
   }, {});
 };
-
-
-
 
 const Blog = () => {
   const { posts, openPost, openEditor, deletePost, editorOpen, setPosts } =
@@ -52,10 +47,9 @@ const Blog = () => {
 
   //data = decodeSearchParams(searchParams).filters;
 
-  const urlQuery = decodeSearchParams(searchParams).filters;
+  //const urlQuery = decodeSearchParams(searchParams).filters;
   //console.log("test---?", urlQuery);
   //const [url, setUrl] = useState(urlQuery);
-
 
   function loadPost() {
     setPosts(decodeSearchParams(searchParams).filters ?? []);
@@ -63,25 +57,12 @@ const Blog = () => {
     //console.log("loading...", decodeSearchParams(searchParams).filters);
   }
 
-  // ------------- test Nico ----------------------------------------
-  const [urlFriend, setUrlFriend] = useState(() => {
-    //setPosts(decodeSearchParams(searchParams).filters ?? []);
-    //localStorage.clear(); /// -------------------------------------lorsqu"on lance le workout
-
-    //const hash = (window.location.hash ?? "").slice(1);
-    //return decodeURIComponent(hash);
-  });
-
-  function reset(){
+  function reset() {
     setPosts([]);
     localStorage.clear();
     console.log("reset");
     setSaveSettings(false);
   }
-
-
-
-
 
   // ----- drag & Drop ---------
   const handleDrag = (results) => {
@@ -106,12 +87,7 @@ const Blog = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const goToPosts = () =>
-    navigate({
-      pathname: "/record/",
-      /* search: `?${createSearchParams(urlQuery)}`, */
-    });
+  //const navigate = useNavigate();
 
   return (
     <>
@@ -129,7 +105,7 @@ const Blog = () => {
         <button onClick={loadPost}>Load Posts</button>
       </div> */}
       <div className="displayResult"></div>
-      <div class="counter-container">
+      <div className="counter-container">
         <div className="panel">
           <div className="header">
             <div className="text">List of Workout </div>
@@ -144,7 +120,7 @@ const Blog = () => {
             <button
               className="button-counter"
               onClick={loadPost}>
-              Load Posts
+              Load Workout
             </button>
           </div>
 
@@ -169,7 +145,7 @@ const Blog = () => {
                           <div
                             key={p.id}
                             index={index}
-                            class="workout-container">
+                            className="workout-container">
                             <div
                               style={{
                                 backgroundColor: "#f2f2f2",
@@ -213,11 +189,11 @@ const Blog = () => {
           </DragDropContext>
           <div className="footer-counter">
             {posts[0] && (
-                <button
-                  className="button-big"
-                  onClick={() => reset()}>
-                  Reset
-                </button>
+              <button
+                className="button-big"
+                onClick={() => reset()}>
+                Reset
+              </button>
             )}
             {!saveSettings && posts[0] && (
               <button

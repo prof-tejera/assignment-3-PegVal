@@ -19,10 +19,7 @@ const usePersistedState = (localStorageKey, initialValue) => {
   }, [localStorageKey, value]);
 
   return [value, setValue];
-}
-
-
-
+};
 
 const BlogProvider = ({ children }) => {
   const [selectedPost, setSelectedPost] = useState(null);

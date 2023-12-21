@@ -75,8 +75,4 @@ const CountdownInput = () => {
   );
 };
 
-
-
-
-
 export default CountdownInput;
